@@ -30,11 +30,11 @@ jobs:
       id: get_release
       uses: bruceadams/get-release@v1.2.2
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        aquila: ${{ secrets.ACCESS_TOKEN }}
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        aquila: ${{ secrets.ACCESS_TOKEN }}
       with:
         upload_url: ${{ steps.get_release.outputs.upload_url }}
         asset_path: firmware/Debug/firmware.bin
@@ -71,11 +71,11 @@ jobs:
       id: get_release
       uses: bruceadams/get-release@v1.2.2
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        aquila: ${{ secrets.ACCESS_TOKEN }}
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        aquila: ${{ secrets.ACCESS_TOKEN }}
       with:
         upload_url: ${{ steps.get_release.outputs.upload_url }}
         asset_path: firmware/Debug/firmware.bin
@@ -107,11 +107,11 @@ jobs:
       id: get_release
       uses: bruceadams/get-release@v1.2.2
       env:
-        GITHUB_TOKEN: ${{ github.token }}
+        aquila: ${{ secrets.ACCESS_TOKEN }}
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        aquila: ${{ secrets.ACCESS_TOKEN }}
       with:
         upload_url: ${{ steps.get_release.outputs.upload_url }}
         asset_path: firmware/Debug/firmware.bin
@@ -148,49 +148,49 @@ jobs:
   #     id: get_release
   #     uses: bruceadams/get-release@v1.2.2
   #     env:
-  #       GITHUB_TOKEN: ${{ github.token }}
+  #       aquila: ${{ secrets.ACCESS_TOKEN }}
   #   - name: Upload Release Asset
   #     uses: actions/upload-release-asset@v1
   #     env:
-  #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #       aquila: ${{ secrets.ACCESS_TOKEN }}
   #     with:
   #       upload_url: ${{ steps.get_release.outputs.upload_url }}
   #       asset_path: firmware/Debug/firmware.bin
   #       asset_name: ${{ steps.build_configs.outputs.filename }}
   #       asset_content_type: application/x-binary
-  Build-UBL-NoProbe:
-    name: Build NoProbe UBL Files
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        chip: [H32]
-        grid: [3,5]
-    steps:
-    - uses: actions/checkout@v2
-    - uses: carlosperate/arm-none-eabi-gcc-action@v1
-    - name: Compile firmware
-      id: build_configs
-      run: |
-        echo "::set-output name=filename::UBL-NoProbe-${GRID}x${GRID}-${AQUILA_VER}.bin"
-        cp firmware/Configuration\ Files/Aquila\ Templates/UBL-NoProbe-3x3/Configuration.h firmware/Sources/Marlin/Configuration.h
-        cp firmware/Configuration\ Files/Aquila\ Templates/UBL-NoProbe-3x3/Configuration_adv.h firmware/Sources/Marlin/Configuration_adv.h
-        sed -i "s/#define GRID_MAX_POINTS_X.*/#define GRID_MAX_POINTS_X $GRID/g" firmware/Sources/Marlin/Configuration.h
-        cd firmware/Debug
-        make all
-      env:
-        AQUILA_VER: ${{ matrix.chip }}
-        GRID: ${{ matrix.grid }}
-    - name: Get release
-      id: get_release
-      uses: bruceadams/get-release@v1.2.2
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
-    - name: Upload Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.get_release.outputs.upload_url }}
-        asset_path: firmware/Debug/firmware.bin
-        asset_name: ${{ steps.build_configs.outputs.filename }}
-        asset_content_type: application/x-binary
+  #Build-UBL-NoProbe:
+  #  name: Build NoProbe UBL Files
+  #  runs-on: ubuntu-latest
+  #  strategy:
+  #    matrix:
+  #      chip: [H32]
+  #      grid: [3,5]
+  #  steps:
+  #  - uses: actions/checkout@v2
+  #  - uses: carlosperate/arm-none-eabi-gcc-action@v1
+  #  - name: Compile firmware
+  #    id: build_configs
+  #    run: |
+  #      echo "::set-output name=filename::UBL-NoProbe-${GRID}x${GRID}-${AQUILA_VER}.bin"
+  #      cp firmware/Configuration\ Files/Aquila\ Templates/UBL-NoProbe-3x3/Configuration.h firmware/Sources/Marlin/Configuration.h
+  #      cp firmware/Configuration\ Files/Aquila\ Templates/UBL-NoProbe-3x3/Configuration_adv.h firmware/Sources/Marlin/Configuration_adv.h
+  #      sed -i "s/#define GRID_MAX_POINTS_X.*/#define GRID_MAX_POINTS_X $GRID/g" firmware/Sources/Marlin/Configuration.h
+  #      cd firmware/Debug
+  #      make all
+  #    env:
+  #      AQUILA_VER: ${{ matrix.chip }}
+  #      GRID: ${{ matrix.grid }}
+  #  - name: Get release
+  #    id: get_release
+  #    uses: bruceadams/get-release@v1.2.2
+  #    env:
+  #      aquila: ${{ secrets.ACCESS_TOKEN }}
+  #  - name: Upload Release Asset
+  #    uses: actions/upload-release-asset@v1
+  #    env:
+  #      aquila: ${{ secrets.ACCESS_TOKEN }}
+  #    with:
+  #      upload_url: ${{ steps.get_release.outputs.upload_url }}
+  #      asset_path: firmware/Debug/firmware.bin
+  #      asset_name: ${{ steps.build_configs.outputs.filename }}
+  #      asset_content_type: application/x-binary
