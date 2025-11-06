@@ -29,13 +29,12 @@ jobs:
     - name: Get release
       id: get_release
       uses: bruceadams/get-release@v1.2.2
-      env:
-        aquila: ${{ secrets.ACCESS_TOKEN }}
+      with:
+        AQUILA_ACTIONS: ${{ secrets.ACCESS_TOKEN }}
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
-      env:
-        aquila: ${{ secrets.ACCESS_TOKEN }}
       with:
+        AQUILA_ACTIONS: ${{ secrets.ACCESS_TOKEN }}
         upload_url: ${{ steps.get_release.outputs.upload_url }}
         asset_path: firmware/Debug/firmware.bin
         asset_name: ${{ steps.build_configs.outputs.filename }}
@@ -70,13 +69,12 @@ jobs:
     - name: Get release
       id: get_release
       uses: bruceadams/get-release@v1.2.2
-      env:
-        aquila: ${{ secrets.ACCESS_TOKEN }}
+      with:
+        AQUILA_ACTIONS: ${{ secrets.ACCESS_TOKEN }}
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
-      env:
-        aquila: ${{ secrets.ACCESS_TOKEN }}
       with:
+        AQUILA_ACTIONS: ${{ secrets.ACCESS_TOKEN }}
         upload_url: ${{ steps.get_release.outputs.upload_url }}
         asset_path: firmware/Debug/firmware.bin
         asset_name: ${{ steps.build_configs.outputs.filename }}
@@ -101,18 +99,18 @@ jobs:
         cd firmware/Debug
         make all
       env:
-        AQUILA_VER: ${{ matrix.chip }}
         GRID: ${{ matrix.grid }}
+      with:
+        AQUILA_ACTIONS: ${{ secrets.ACCESS_TOKEN }}
     - name: Get release
       id: get_release
       uses: bruceadams/get-release@v1.2.2
-      env:
-        aquila: ${{ secrets.ACCESS_TOKEN }}
+      with:
+        AQUILA_ACTIONS: ${{ secrets.ACCESS_TOKEN }}
     - name: Upload Release Asset
       uses: actions/upload-release-asset@v1
-      env:
-        aquila: ${{ secrets.ACCESS_TOKEN }}
       with:
+        AQUILA_ACTIONS: ${{ secrets.ACCESS_TOKEN }}
         upload_url: ${{ steps.get_release.outputs.upload_url }}
         asset_path: firmware/Debug/firmware.bin
         asset_name: ${{ steps.build_configs.outputs.filename }}
